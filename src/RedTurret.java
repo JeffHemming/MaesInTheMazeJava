@@ -48,6 +48,10 @@ public class RedTurret {
         this.x=xi;
         this.y=yi;
         this.face=f;
+        this.upMax=0;
+        this.downMax=0;
+        this.leftMax=0;
+        this.rightMax=0;
     }
     public void turn(){
         if(this.face==4)this.face=1;
