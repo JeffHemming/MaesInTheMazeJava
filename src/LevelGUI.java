@@ -45,6 +45,9 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
     protected static ArrayList<JLabel> waterways;
     protected static ArrayList<JLabel> gates;
     protected static Level l;
+    protected static JLabel timeLimit;
+    protected static boolean timeLimitBool=false;
+    protected static int limit=1;
     protected static boolean alreadyFired=false;
     public static String WALL, TOP, DOOR, DOORSWITCH, FLOOR, GOAL, SPOUT1, SPOUT2, SPURT, PLAYER, PRESSEDSWITCH;
     public static String SPURTSOUND, BGM, SWITCHSOUND, DOORSOUND, VICTORYSOUND, STARTSOUND;
@@ -80,7 +83,7 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
         SPOUT1="image/spurt1"+Main.character+".png";
         SPOUT2="image/spurt2"+Main.character+".png";
         SPURT="image/spout"+Main.character+".png";
-        PRESSEDSWITCH="image/pressedswitch"+Main.character+".png";
+        PRESSEDSWITCH="image/doorswitch"+Main.character+".png";
         GOAL="image/goal"+Main.character+".png";
         SPURTSOUND="sound\\spurt"+Main.character+".wav";
 
@@ -99,6 +102,10 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
                 for(int i=0;i<=DIM;i++){
                     String garbage=input.readLine();
                 }
+            }
+            if(lineread.length>2) {
+                timeLimitBool = true;
+                limit=Integer.parseInt(lineread[2]);
             }
         }
         int[][] mA=new int[DIM][DIM];
@@ -121,6 +128,28 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
         deadLabel.setFont(deadFont);
         deadLabel.setVisible(false);
         pane.add(deadLabel);
+
+        JLabel keys= new JLabel("Press 'R' to restart the level.  Press 'Q' to change characters.",SwingConstants.CENTER);
+        keys.setForeground(Color.WHITE);
+        keys.setBackground(Color.BLACK);
+        keys.setLocation(WIDTH/8,0);
+        keys.setSize(3*WIDTH/4,WIDTH/15);
+        Font keysFont=new Font("Georgia",Font.BOLD,HEIGHT/45);
+        keys.setFont(keysFont);
+        keys.setOpaque(true);
+        pane.add(keys);
+
+        if(timeLimitBool){
+            timeLimit=new JLabel(String.valueOf(limit),SwingConstants.CENTER);
+            timeLimit.setForeground(Color.WHITE);
+            timeLimit.setBackground(Color.BLACK);
+            timeLimit.setSize(WIDTH/15,WIDTH/15);
+            timeLimit.setLocation(0,0);
+            Font tlFont=new Font("Georgia",Font.PLAIN,HEIGHT/30);
+            timeLimit.setFont(tlFont);
+            timeLimit.setOpaque(true);
+            pane.add(timeLimit);
+        }
 
         flameSpurts=new ArrayList<JLabel>();
         for(int i=0;i<l.sList.size();i++){
@@ -482,6 +511,27 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
             }
         }
 
+        if(Main.character==6){
+            for(int i=0;i<DIM;i++){
+                for(int j=0;j<DIM;j++){
+                    if(l.mapArray[j][i]==-1||l.mapArray[j][i]==-5) {
+                        JLabel floorcell = new JLabel();
+                        floorcell.setSize(MAZE / DIM, MAZE / DIM);
+                        floorcell.setLocation(MAZEX + (j * (MAZE / DIM)), MAZEY + (i * (MAZE / DIM)));
+                        BufferedImage cImage = null;
+                        try {
+                            cImage = ImageIO.read(new File("image/special6.png"));
+                        } catch (IOException e) {
+                            System.out.println("Not Found");
+                        }
+                        Image top = cImage.getScaledInstance(MAZE / DIM, MAZE / DIM, Image.SCALE_SMOOTH);
+                        floorcell.setIcon(new ImageIcon(top));
+                        pane.add(floorcell);
+                    }
+                }
+            }
+        }
+
         for(int i=0;i<DIM;i++){
             for(int j=0;j<DIM;j++){
                 JLabel floorcell = new JLabel();
@@ -501,8 +551,14 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
         box=new JLabel();
         box.setSize(MAZE,MAZE);
         box.setLocation(MAZEX, MAZEY);
-        box.setBackground(Color.BLACK);
-        box.setOpaque(true);
+        BufferedImage tImage = null;
+        try {
+            tImage = ImageIO.read(new File("image/stars.png"));
+        } catch (IOException e) {
+            System.out.println("Not Found");
+        }
+        Image m4= tImage.getScaledInstance(MAZE, MAZE, Image.SCALE_SMOOTH);
+        box.setIcon(new ImageIcon(m4));
         pane.add(box);
 
         pane.addMouseListener(this);
@@ -603,7 +659,7 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
                     Main.maxLevel[Main.character-1]=Main.currentLevel;
                     BufferedWriter os=null;
                     try {
-                        os = new BufferedWriter(new FileWriter("mitm.sav"));
+                        os = new BufferedWriter(new FileWriter(Main.levelfile));
                         os.write(Main.maxLevel[0]+" "+Main.maxLevel[1]+" "+Main.maxLevel[2]+" "+Main.maxLevel[3]+" "
                                 +Main.maxLevel[4]+" "+Main.maxLevel[5]+" "+Main.maxLevel[6]+" "+Main.maxLevel[7]);
                     } catch (IOException ef) {
@@ -1012,7 +1068,7 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
                         Main.maxLevel[Main.character - 1] = Main.currentLevel;
                         BufferedWriter os = null;
                         try {
-                            os = new BufferedWriter(new FileWriter("mitm.sav"));
+                            os = new BufferedWriter(new FileWriter(Main.saveName));
                             os.write(Main.maxLevel[0] + " " + Main.maxLevel[1] + " " + Main.maxLevel[2] + " " + Main.maxLevel[3] + " "
                                     + Main.maxLevel[4] + " " + Main.maxLevel[5] + " " + Main.maxLevel[6] + " " + Main.maxLevel[7]);
                         } catch (IOException ef) {
@@ -1031,7 +1087,19 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
                     Timer victoryTimer = new Timer();
                     victoryTimer.schedule(new endLevel(), 2000);
                 }//end WIM
+
                 else {
+                    if(timeLimitBool){
+                        limit--;
+                        timeLimit.setText(String.valueOf(limit));
+                        if(limit<5){
+                            timeLimit.setForeground(Color.RED);
+                        }
+                        if(limit<1){
+                            gameOver();
+                        }
+                    }
+
                     checkSwitches();
                     alreadyFired = true;
 
@@ -1306,6 +1374,10 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
             while(!moved&&counter<10){
                 counter++;
                 int dir=RandomGenerator.randomInt(1,4);
+                if(dir==1&&m.getY()==0)continue;
+                if(dir==3&&m.getY()==l.dimension-1)continue;
+                if(dir==2&&m.getX()==l.dimension-1)continue;
+                if(dir==4&&m.getX()==0)continue;
                 int target=getTarget(m, dir);
                 if(target ==0){
                     moved = true;
@@ -1320,6 +1392,10 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
             while(!moved&&counter<10){
                 counter++;
                 int dir=RandomGenerator.randomInt(1,4);
+                if(dir==1&&m.getY()==0)continue;
+                if(dir==3&&m.getY()==l.dimension-1)continue;
+                if(dir==2&&m.getX()==l.dimension-1)continue;
+                if(dir==4&&m.getX()==0)continue;
                 if(RandomGenerator.randomInt(1,3)%2==0||onTarget(m, dir, i)) {
                     int target = getTarget(m, dir);
                     if (target == 0) {
@@ -1336,6 +1412,10 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
             while(!moved&&counter<10){
                 counter++;
                 int dir=RandomGenerator.randomInt(1,4);
+                if(dir==1&&m.getY()==0)continue;
+                if(dir==3&&m.getY()==l.dimension-1)continue;
+                if(dir==2&&m.getX()==l.dimension-1)continue;
+                if(dir==4&&m.getX()==0)continue;
                 if(RandomGenerator.randomInt(1,3)%2==0||onTarget(m, dir, i)) {
                     int target = getTarget(m, dir);
                     if (target == 0||target==1) {
@@ -1416,7 +1496,7 @@ public class LevelGUI extends JFrame implements MouseListener, KeyListener {
                 System.out.println("Not Found");
             }
             Image m4= tImage.getScaledInstance(MAZE / DIM, ((MAZE / DIM)), Image.SCALE_SMOOTH);
-            switches.get(switchNo&10).setIcon(new ImageIcon(m4));
+            switches.get(-1*switchNo%10).setIcon(new ImageIcon(m4));
             openDoor(switchNo-(2*switchNo));
         }
     }

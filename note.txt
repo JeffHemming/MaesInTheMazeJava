@@ -1,0 +1,46 @@
+
+Arrows			-81--84
+Door            60-69 (top to bottom, left to right)
+Floor			0
+Goal			-5
+Ice				-80
+Monster(bat)	51
+Monster(rat)	52
+Monster(spider)	53
+Monster(troll)	54
+Monster(skele)	55
+Monster(phantm)	56
+Monster(reaper)	57
+Player:  		-1
+Spout(wait)		-90
+Spout(soon)		-91
+Switches        -60--69
+Turret(Cyan)	41-44
+Turret(Green)	21-24
+Turret(Purple)	31-34	
+Turret(Red)		11-14
+Wall:   		1
+
+
+
+
+        1       2       3       4
+11:     R       D       L       U
+12:     D       L       U       R
+13:     L       U       R       D
+14:     U       R       D       L
+
+21:     L       D       R       U
+22:     U       L       D       R
+23:     R       U       L       D
+24:     D       R       U       L
+
+31:     UR      RD      DL      LU
+32:     RD      DL      LU      UR
+33:     DL      LU      UR      RD
+34:     LU      UR      RD      DL
+
+41:     UL      LD      DR      RU
+42:     RU      UL      LD      DR
+43:     DR      RU      UL      LD
+44:     LD      DR      RU      UL

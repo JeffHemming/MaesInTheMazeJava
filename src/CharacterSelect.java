@@ -23,91 +23,101 @@ public class CharacterSelect extends JFrame implements ActionListener {
         pane.setLayout(null);
         Font buttonfont = new Font("Georgia", Font.BOLD,14);
 
-        maesb=new JButton();
+        //JLabel
+
+        maesb=new JButton("Level "+Main.maxLevel[0]);
+        maesb.setVerticalAlignment(SwingConstants.BOTTOM);
         maesb.setSize(DIM/4,DIM/4);
         maesb.setLocation(DIM / 16, DIM / 16);
         maesb.setOpaque(false);
         maesb.setContentAreaFilled(false);
         maesb.setBorderPainted(false);
         maesb.setFont(buttonfont);
-        maesb.setForeground(Color.GREEN);
+        maesb.setForeground(Color.WHITE);
         maesb.setActionCommand("m");
         pane.add(maesb);
 
-        finnb=new JButton();
+        finnb=new JButton("Level "+Main.maxLevel[1]);
+        finnb.setVerticalAlignment(SwingConstants.BOTTOM);
         finnb.setSize(DIM/4,DIM/4);
         finnb.setLocation(6 * DIM / 16, DIM / 16);
         finnb.setOpaque(false);
         finnb.setContentAreaFilled(false);
         finnb.setBorderPainted(false);
         finnb.setFont(buttonfont);
-        finnb.setForeground(Color.BLUE);
+        finnb.setForeground(Color.BLACK);
         finnb.setActionCommand("f");
         pane.add(finnb);
 
-        nadiab=new JButton();
+        nadiab=new JButton("Level "+Main.maxLevel[2]);
+        nadiab.setVerticalAlignment(SwingConstants.BOTTOM);
         nadiab.setSize(DIM/4,DIM/4);
         nadiab.setLocation(11 * DIM / 16, DIM / 16);
         nadiab.setOpaque(false);
         nadiab.setContentAreaFilled(false);
         nadiab.setBorderPainted(false);
         nadiab.setFont(buttonfont);
-        nadiab.setForeground(Color.YELLOW);
+        nadiab.setForeground(Color.WHITE);
         nadiab.setActionCommand("n");
         pane.add(nadiab);
 
-        gwendolynb=new JButton();
+        gwendolynb=new JButton("Level "+Main.maxLevel[3]);
+        gwendolynb.setVerticalAlignment(SwingConstants.BOTTOM);
         gwendolynb.setSize(DIM/4,DIM/4);
         gwendolynb.setLocation(DIM / 16, 6 * DIM / 16);
         gwendolynb.setOpaque(false);
         gwendolynb.setContentAreaFilled(false);
         gwendolynb.setBorderPainted(false);
         gwendolynb.setFont(buttonfont);
-        gwendolynb.setForeground(Color.PINK);
+        gwendolynb.setForeground(Color.BLACK);
         gwendolynb.setActionCommand("g");
         pane.add(gwendolynb);
 
-        annabethb=new JButton();
+        annabethb=new JButton("Level "+Main.maxLevel[4]);
+        annabethb.setVerticalAlignment(SwingConstants.BOTTOM);
         annabethb.setSize(DIM/4,DIM/4);
         annabethb.setLocation(11 * DIM / 16, 6 * DIM / 16);
         annabethb.setOpaque(false);
         annabethb.setContentAreaFilled(false);
         annabethb.setBorderPainted(false);
         annabethb.setFont(buttonfont);
-        annabethb.setForeground(Color.MAGENTA);
+        annabethb.setForeground(Color.WHITE);
         annabethb.setActionCommand("a");
         pane.add(annabethb);
 
-        olivierb=new JButton();
+        olivierb=new JButton("Level "+Main.maxLevel[5]);
+        olivierb.setVerticalAlignment(SwingConstants.BOTTOM);
         olivierb.setSize(DIM/4,DIM/4);
         olivierb.setLocation(DIM / 16, 11 * DIM / 16);
         olivierb.setOpaque(false);
         olivierb.setContentAreaFilled(false);
         olivierb.setBorderPainted(false);
         olivierb.setFont(buttonfont);
-        olivierb.setForeground(Color.ORANGE);
+        olivierb.setForeground(Color.BLACK);
         olivierb.setActionCommand("o");
         pane.add(olivierb);
 
-        pipb=new JButton();
+        pipb=new JButton("Level "+Main.maxLevel[6]);
+        pipb.setVerticalAlignment(SwingConstants.BOTTOM);
         pipb.setSize(DIM/4,DIM/4);
         pipb.setLocation(6 * DIM / 16, 11 * DIM / 16);
         pipb.setOpaque(false);
         pipb.setContentAreaFilled(false);
         pipb.setBorderPainted(false);
         pipb.setFont(buttonfont);
-        pipb.setForeground(Color.GREEN);
+        pipb.setForeground(Color.WHITE);
         pipb.setActionCommand("p");
         pane.add(pipb);
 
-        bridgerb=new JButton();
+        bridgerb=new JButton("Level "+Main.maxLevel[7]);
+        bridgerb.setVerticalAlignment(SwingConstants.BOTTOM);
         bridgerb.setSize(DIM/4,DIM/4);
         bridgerb.setLocation(11 * DIM / 16, 11 * DIM / 16);
         bridgerb.setOpaque(false);
         bridgerb.setContentAreaFilled(false);
         bridgerb.setBorderPainted(false);
         bridgerb.setFont(buttonfont);
-        bridgerb.setForeground(Color.BLUE);
+        bridgerb.setForeground(Color.BLACK);
         bridgerb.setActionCommand("b");
         pane.add(bridgerb);
 
@@ -162,6 +172,19 @@ public class CharacterSelect extends JFrame implements ActionListener {
         m4= tImage.getScaledInstance(DIM/4, DIM/4, Image.SCALE_SMOOTH);
         gwendolynback.setIcon(new ImageIcon(m4));
         pane.add(gwendolynback);
+
+        JLabel center=new JLabel();
+        center.setSize(3*DIM/8,5*DIM/16);
+        center.setLocation(5* DIM/16,6*DIM/16);
+        tImage = null;
+        try {
+            tImage = ImageIO.read(new File("image/center.png"));
+        } catch (IOException e) {
+            System.out.println("Not Found");
+        }
+        m4= tImage.getScaledInstance(3*DIM/8, 3*DIM/8, Image.SCALE_SMOOTH);
+        center.setIcon(new ImageIcon(m4));
+        pane.add(center);
 
         annabethback=new JLabel();
         annabethback.setSize(DIM/4,DIM/4);

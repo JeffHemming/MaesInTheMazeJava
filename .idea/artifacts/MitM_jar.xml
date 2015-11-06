@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MitM:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MitM_jar</output-path>
+    <root id="archive" name="MitM.jar">
+      <element id="module-output" name="MitM" />
+    </root>
+  </artifact>
+</component>

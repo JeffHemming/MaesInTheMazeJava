@@ -18,9 +18,6 @@ public class Main {
     public static void main(String [] args) throws IOException {
 
         ts=new TitleScreen();
-        //currentLevel=maxLevel;
-        //currentLevel=9;
-        //lg=new LevelGUI(currentLevel, character);
 
     }
 }
